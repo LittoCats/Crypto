@@ -23,7 +23,32 @@ class CryptoTests: XCTestCase {
     
     func testExample() {
         // This is an example of a functional test case.
+        
+        var data = ("        // This is an example of a functional test case." as NSString).dataUsingEncoding(NSUTF8StringEncoding)
+        var md5 = Crypto.MD5(data: data!)
+        println(md5)
+        
+        var encodedData = Crypto.AES128Encrypt(data!, withPassword: "dujuanhuakai")
+        var decodedData = Crypto.AES128Decrypt(encodedData, withPassword: "dujuanhuakai")
+        
+        var str = NSString(data: decodedData, encoding: NSUTF8StringEncoding)
+        
+        println(str)
         XCTAssert(true, "Pass")
+    }
+    
+    func testRSA(){
+        let publicKey: NSData = NSData(contentsOfFile: NSBundle.mainBundle().pathForResource("server", ofType: "der")!)!
+        let privateKey: NSData = NSData(contentsOfFile: NSBundle.mainBundle().pathForResource("server", ofType: "p12")!)!
+        
+        let password = "dujuanhuakai"
+        
+        var source: NSString = "NSData *privateKey = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@\"Certificates\" ofType:@\"p12\"]];"
+        
+        var encryptData = Crypto.RSAEncrypt(source.dataUsingEncoding(NSUTF8StringEncoding)!, publicKey: publicKey)
+        var decryptData = Crypto.RSADecrypt(encryptData, privateKey: privateKey, password: password)
+        
+        println("\(source)\n\(NSString(data: decryptData, encoding: NSUTF8StringEncoding))")
     }
     
     func testPerformanceExample() {

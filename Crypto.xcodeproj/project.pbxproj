@@ -7,12 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A11212A21ABB138E005B2DF2 /* CryptoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1957AA11ABB0A8600113CA2 /* CryptoTests.swift */; };
 		A1957A8C1ABB0A8600113CA2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1957A8B1ABB0A8600113CA2 /* AppDelegate.swift */; };
 		A1957A8E1ABB0A8600113CA2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1957A8D1ABB0A8600113CA2 /* ViewController.swift */; };
 		A1957A911ABB0A8600113CA2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A1957A8F1ABB0A8600113CA2 /* Main.storyboard */; };
 		A1957A931ABB0A8600113CA2 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A1957A921ABB0A8600113CA2 /* Images.xcassets */; };
 		A1957A961ABB0A8600113CA2 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = A1957A941ABB0A8600113CA2 /* LaunchScreen.xib */; };
-		A1957AA21ABB0A8600113CA2 /* CryptoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1957AA11ABB0A8600113CA2 /* CryptoTests.swift */; };
+		A1957AB01ABB120F00113CA2 /* Crypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1957AAB1ABB0AB400113CA2 /* Crypto.swift */; };
+		A1957AB11ABB125900113CA2 /* Crypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1957AAB1ABB0AB400113CA2 /* Crypto.swift */; };
+		A1CFBBA31ABC272A001BA42C /* server.der in Resources */ = {isa = PBXBuildFile; fileRef = A1CFBBA11ABC272A001BA42C /* server.der */; };
+		A1CFBBA41ABC272A001BA42C /* server.der in Resources */ = {isa = PBXBuildFile; fileRef = A1CFBBA11ABC272A001BA42C /* server.der */; };
+		A1CFBBA51ABC272A001BA42C /* server.p12 in Resources */ = {isa = PBXBuildFile; fileRef = A1CFBBA21ABC272A001BA42C /* server.p12 */; };
+		A1CFBBA61ABC272A001BA42C /* server.p12 in Resources */ = {isa = PBXBuildFile; fileRef = A1CFBBA21ABC272A001BA42C /* server.p12 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +42,10 @@
 		A1957A9B1ABB0A8600113CA2 /* CryptoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CryptoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1957AA01ABB0A8600113CA2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A1957AA11ABB0A8600113CA2 /* CryptoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoTests.swift; sourceTree = "<group>"; };
+		A1957AAB1ABB0AB400113CA2 /* Crypto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Crypto.swift; sourceTree = "<group>"; };
+		A1957AAF1ABB0CAB00113CA2 /* Crypto_Bridge_Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Crypto_Bridge_Header.h; sourceTree = "<group>"; };
+		A1CFBBA11ABC272A001BA42C /* server.der */ = {isa = PBXFileReference; lastKnownFileType = file; path = server.der; sourceTree = "<group>"; };
+		A1CFBBA21ABC272A001BA42C /* server.p12 */ = {isa = PBXFileReference; lastKnownFileType = file; path = server.p12; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +93,10 @@
 				A1957A921ABB0A8600113CA2 /* Images.xcassets */,
 				A1957A941ABB0A8600113CA2 /* LaunchScreen.xib */,
 				A1957A891ABB0A8600113CA2 /* Supporting Files */,
+				A1957AAB1ABB0AB400113CA2 /* Crypto.swift */,
+				A1957AAF1ABB0CAB00113CA2 /* Crypto_Bridge_Header.h */,
+				A1CFBBA11ABC272A001BA42C /* server.der */,
+				A1CFBBA21ABC272A001BA42C /* server.p12 */,
 			);
 			path = Crypto;
 			sourceTree = "<group>";
@@ -194,6 +208,8 @@
 			files = (
 				A1957A911ABB0A8600113CA2 /* Main.storyboard in Resources */,
 				A1957A961ABB0A8600113CA2 /* LaunchScreen.xib in Resources */,
+				A1CFBBA31ABC272A001BA42C /* server.der in Resources */,
+				A1CFBBA51ABC272A001BA42C /* server.p12 in Resources */,
 				A1957A931ABB0A8600113CA2 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -202,6 +218,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A1CFBBA61ABC272A001BA42C /* server.p12 in Resources */,
+				A1CFBBA41ABC272A001BA42C /* server.der in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -212,6 +230,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A1957AB11ABB125900113CA2 /* Crypto.swift in Sources */,
 				A1957A8E1ABB0A8600113CA2 /* ViewController.swift in Sources */,
 				A1957A8C1ABB0A8600113CA2 /* AppDelegate.swift in Sources */,
 			);
@@ -221,7 +240,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A1957AA21ABB0A8600113CA2 /* CryptoTests.swift in Sources */,
+				A11212A21ABB138E005B2DF2 /* CryptoTests.swift in Sources */,
+				A1957AB01ABB120F00113CA2 /* Crypto.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -340,7 +360,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = Crypto/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/system",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = Crypto/Crypto_Bridge_Header.h;
 			};
 			name = Debug;
 		};
@@ -350,7 +375,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = Crypto/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/system",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = Crypto/Crypto_Bridge_Header.h;
 			};
 			name = Release;
 		};
@@ -369,6 +399,7 @@
 				INFOPLIST_FILE = CryptoTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = Crypto/Crypto_Bridge_Header.h;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Crypto.app/Crypto";
 			};
 			name = Debug;
@@ -384,6 +415,7 @@
 				INFOPLIST_FILE = CryptoTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = Crypto/Crypto_Bridge_Header.h;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Crypto.app/Crypto";
 			};
 			name = Release;
@@ -407,6 +439,7 @@
 				A1957AA71ABB0A8600113CA2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		A1957AA81ABB0A8600113CA2 /* Build configuration list for PBXNativeTarget "CryptoTests" */ = {
 			isa = XCConfigurationList;
@@ -415,6 +448,7 @@
 				A1957AAA1ABB0A8600113CA2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
