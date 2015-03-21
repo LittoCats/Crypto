@@ -377,7 +377,7 @@ static NSData *RSADecrypt(NSData *data, NSData *private, NSString *password)
 
 #pragma mark- public
 
-typeof(Crypto) Crypto = (typeof(Crypto)){
+typeof(ECrypto) ECrypto = (typeof(ECrypto)){
     MD5Encode,
     MD5EncodeFile,
 

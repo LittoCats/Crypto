@@ -34,6 +34,6 @@ FOUNDATION_EXTERN struct {
     // 证书生成可参照项目文件夹中的 openssl_rsa_certificate_生成与转换.md 文件
     NSData *(*RSAEncrypt)(NSData *data, NSData *certificateFileData); // certificateFileData 为 DER encoded X.509 certificate data
     NSData *(*RSADecrypt)(NSData *data, NSData *certificateFileData, NSString *password); // certificateFileData 为 PKCS#12 formatted data
-}  Crypto;
+}  ECrypto;
 
 #endif
