@@ -73,6 +73,7 @@ struct Crypto {
             ret.appendString(base64_table[bValue >> (18 - index * 6) & 0b111111])
         }
         if remainBitLen != 0 { ret.appendString(remainBitLen == 1 ? "==" : "=")}
+        inStream.close()
         buffer.dealloc(3)
         return ret
     }
@@ -107,45 +108,46 @@ struct Crypto {
             
             ret.replaceBytesInRange(NSMakeRange(ret.length - 3, 3), withBytes: value, length: 3 - additionalBitLen)
         }
-        
+        inStream.close()
         value.dealloc(3)
         buffer.dealloc(4)
         return ret
     }
     
     // 对称加密
-    static func AES128Encrypt(data: NSData, withPassword password: String) ->NSData {
-        return SymmetricCrypt(data: data, keyStr: password, keySize: kCCKeySizeAES128, algorithm: CCAlgorithm(kCCAlgorithmAES), operation: CCOperation(kCCEncrypt))
+    let aes128 = 1
+    enum SymmetricCryptType{
+        case AES128
+        case AES192
+        case AES256
+        case DES
+        case DES3
+        
+        var keySize: Int{
+            return (self.rawValue & 0xFFFF0000) >> 16
+        }
+        var algorithm: CCAlgorithm{
+            return CCAlgorithm(self.rawValue & 0xFFFF)
+        }
+        private var rawValue: Int{
+            switch self {
+            case .AES128: return kCCKeySizeAES128 << 16 | Int(kCCAlgorithmAES)
+            case .AES192: return kCCKeySizeAES192 << 16 | Int(kCCAlgorithmAES)
+            case .AES256: return kCCKeySizeAES256 << 16 | Int(kCCAlgorithmAES)
+            case .DES: return kCCKeySizeDES << 16 | Int(kCCAlgorithmDES)
+            case .DES3: return kCCKeySize3DES << 16 | Int(kCCAlgorithm3DES)
+            }
+        }
+        
+        private static let aes128: Int = kCCKeySizeAES128 << 16 | Int(kCCAlgorithmAES)
     }
-    static func AES128Decrypt(data: NSData, withPassword password: String) ->NSData {
-        return SymmetricCrypt(data: data, keyStr: password, keySize: kCCKeySizeAES128, algorithm: CCAlgorithm(kCCAlgorithmAES), operation: CCOperation(kCCDecrypt))
+    static func SymmetricEncrypt(data: NSData, withPassword password: String, type: SymmetricCryptType) ->NSData {
+        var keySize = type.keySize
+        return SymmetricCrypt(data: data, keyStr: password, keySize: type.keySize, algorithm: type.algorithm, operation: CCOperation(kCCEncrypt))
     }
-    static func AES192Encrypt(data: NSData, withPassword password: String) ->NSData {
-        return SymmetricCrypt(data: data, keyStr: password, keySize: kCCKeySizeAES192, algorithm: CCAlgorithm(kCCAlgorithmAES), operation: CCOperation(kCCEncrypt))
-    }
-    static func AES192Decrypt(data: NSData, withPassword password: String) ->NSData {
-        return SymmetricCrypt(data: data, keyStr: password, keySize: kCCKeySizeAES192, algorithm: CCAlgorithm(kCCAlgorithmAES), operation: CCOperation(kCCDecrypt))
-    }
-    static func AES256Encrypt(data: NSData, withPassword password: String) ->NSData {
-        return SymmetricCrypt(data: data, keyStr: password, keySize: kCCKeySizeAES256, algorithm: CCAlgorithm(kCCAlgorithmAES), operation: CCOperation(kCCEncrypt))
-    }
-    static func AES256Decrypt(data: NSData, withPassword password: String) ->NSData {
-        return SymmetricCrypt(data: data, keyStr: password, keySize: kCCKeySizeAES256, algorithm: CCAlgorithm(kCCAlgorithmAES), operation: CCOperation(kCCDecrypt))
-    }
-    
-    static func DESEncrypt(data: NSData, withPassword password: String) ->NSData {
-        return SymmetricCrypt(data: data, keyStr: password, keySize: kCCKeySizeDES, algorithm: CCAlgorithm(kCCAlgorithmDES), operation: CCOperation(kCCEncrypt))
-    }
-    static func DESDecrypt(data: NSData, withPassword password: String) ->NSData {
-        return SymmetricCrypt(data: data, keyStr: password, keySize: kCCKeySizeDES, algorithm: CCAlgorithm(kCCAlgorithmDES), operation: CCOperation(kCCDecrypt))
-    }
-    static func DES3Encrypt(data: NSData, withPassword password: String) ->NSData {
-        return SymmetricCrypt(data: data, keyStr: password, keySize: kCCKeySize3DES, algorithm: CCAlgorithm(kCCAlgorithm3DES), operation: CCOperation(kCCEncrypt))
-    }
-    static func DES3Decrypt(data: NSData, withPassword password: String) ->NSData {
-        return SymmetricCrypt(data: data, keyStr: password, keySize: kCCKeySize3DES, algorithm: CCAlgorithm(kCCAlgorithm3DES), operation: CCOperation(kCCDecrypt))
-    }
-    
+    static func SymmetricDecrypt(data: NSData, withPassword password: String, type: SymmetricCryptType) ->NSData {
+        return SymmetricCrypt(data: data, keyStr: password, keySize: type.keySize, algorithm: type.algorithm, operation: CCOperation(kCCDecrypt))
+    }    
     // 非对称加密
     // 使用公钥加密
     static func RSAEncrypt(data: NSData, publicKey: NSData) ->NSData{

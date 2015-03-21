@@ -28,8 +28,8 @@ class CryptoTests: XCTestCase {
         var md5 = Crypto.MD5(data: data!)
         println(md5)
         
-        var encodedData = Crypto.AES128Encrypt(data!, withPassword: "dujuanhuakai")
-        var decodedData = Crypto.AES128Decrypt(encodedData, withPassword: "dujuanhuakai")
+        var encodedData = Crypto.SymmetricEncrypt(data!, withPassword: "dujuanhuakai", type: .AES128)
+        var decodedData = Crypto.SymmetricDecrypt(encodedData, withPassword: "dujuanhuakai", type: .AES128)
         
         var str = NSString(data: decodedData, encoding: NSUTF8StringEncoding)
         
