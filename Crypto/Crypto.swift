@@ -75,7 +75,7 @@ struct Crypto {
         if remainBitLen != 0 { ret.appendString(remainBitLen == 1 ? "==" : "=")}
         inStream.close()
         buffer.dealloc(3)
-        return ret
+        return ret as String
     }
     static func Base64Decode(#data: String) -> NSData{
         var inStream = NSInputStream(data: (data as NSString).dataUsingEncoding(NSUTF8StringEncoding)!)
@@ -159,7 +159,7 @@ struct Crypto {
         var blockSize            = Int(SecKeyGetBlockSize(secKey)-11)
         var blockCount           = Int(ceil(CDouble(dataLength/Int(blockSize))) + 1)
         
-        var chiperTextLength: UInt = 0
+        var chiperTextLength: Int = 0
         // 缓存待加密的数据块
         var plainText: UnsafeMutablePointer<UInt8> = UnsafeMutablePointer<UInt8>.alloc(blockSize * sizeof(UInt8))
         var plainTextLength      = blockSize;
@@ -173,7 +173,7 @@ struct Crypto {
             data.getBytes(plainText, range: NSMakeRange(i * blockSize, plainTextLength))
             var status: OSStatus = SecKeyEncrypt(secKey,
                 SecPadding(kSecPaddingPKCS1),
-                plainText, UInt(plainTextLength),
+                plainText, plainTextLength,
                 chiperText, &chiperTextLength
             )
             if status == noErr {
@@ -195,7 +195,7 @@ struct Crypto {
         var blockSize        = Int(SecKeyGetBlockSize(secKey))
         var blockCount       = Int(ceil(CDouble(dataLength/Int(blockSize)))+1)
         
-        var chiperTextLength: UInt = 0
+        var chiperTextLength: Int = 0
         // 缓存待加密的数据块
         var plainText: UnsafeMutablePointer<UInt8> = UnsafeMutablePointer<UInt8>.alloc(blockSize * sizeof(UInt8))
         var plainTextLength      = blockSize;
@@ -209,7 +209,7 @@ struct Crypto {
             data.getBytes(plainText, range: NSMakeRange(i * blockSize, plainTextLength))
             var status: OSStatus = SecKeyDecrypt(secKey,
                 SecPadding(kSecPaddingPKCS1),
-                plainText, UInt(plainTextLength),
+                plainText, plainTextLength,
                 chiperText, &chiperTextLength);
             if status == noErr {
                 decryptedData.appendBytes(chiperText, length: Int(chiperTextLength))
@@ -234,23 +234,22 @@ extension Crypto {
         var bufferSize = dataLength + kCCBlockSizeAES128
         var buffer = UnsafeMutablePointer<Void>.alloc(Int(bufferSize))
         
-        var retLen = UnsafeMutablePointer<UInt>.alloc(1)
+        var retLen = 0
         
         var status: CCCryptorStatus = CCCrypt(
             operation, algorithm,
             CCOptions(kCCOptionPKCS7Padding | kCCOptionECBMode),
-            UnsafePointer<Void>(key), UInt(keySize),
+            UnsafePointer<Void>(key), keySize,
             nil,
-            data.bytes, UInt(dataLength),
-            buffer, UInt(bufferSize),
-            retLen
+            data.bytes, dataLength,
+            buffer, bufferSize,
+            &retLen
         )
         
         var result: NSData!
         if Int(status) == kCCSuccess{
-            result = NSData(bytesNoCopy: buffer, length: Int(retLen.memory))
+            result = NSData(bytesNoCopy: buffer, length: retLen)
         }
-        retLen.dealloc(1)
         
         return result
     }
@@ -262,8 +261,8 @@ extension Crypto {
         var nItems: NSArray = items!.takeRetainedValue()
         var privateKey: Unmanaged<SecKey>?
         if status == noErr && items != nil && nItems.count > 0 {
-            var identities: NSDictionary = nItems.objectAtIndex(0) as NSDictionary
-            var identity = identities.objectForKey(kSecImportItemIdentity.takeRetainedValue() as String) as SecIdentity
+            var identities: NSDictionary = nItems.objectAtIndex(0) as! NSDictionary
+            var identity = identities.objectForKey(kSecImportItemIdentity.takeRetainedValue() as String) as! SecIdentity
             status = SecIdentityCopyPrivateKey(identity, &privateKey)
             if status != noErr {privateKey = nil}
         }
